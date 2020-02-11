@@ -6,8 +6,8 @@ const {OAuth2Client} = require('google-auth-library')
 class UserController {
   static register (req, res, next) {
     const { name, email, password } = req.body
-    if (!password) next({msg: 'password is undefined'})
-    if (password.length < 7) next({msg: 'Minimum password length is 6'})
+    if (!password) next({msg: 'password is undefined', status: 'bad_request'})
+    if (password.length < 7) next({msg: 'Minimum password length is 6', status: 'bad_request'})
     User.create({ name, email, password })
       .then(user => {
         const token = jwt.sign({ id: user.id }, process.env.SECRET);

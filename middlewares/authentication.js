@@ -11,10 +11,10 @@ module.exports = (req, res, next) => {
           req.currentUserId = user.id
           next()
         } else {
-          next({ msg: 'Token is not valid. User not found'})
+          next({ msg: 'Token is not valid. User not found', status: 'bad_request'})
         }
       })
   } else {
-    next({ msg: 'Please login first'})
+    next({ msg: 'Please login first', status: 'not_authorized'})
   }
 }
