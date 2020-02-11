@@ -1,4 +1,6 @@
 'use strict';
+const today = new Date().toISOString().slice(0, 10)
+
 module.exports = (sequelize, DataTypes) => {
   const Model = sequelize.Sequelize.Model
   class Todo extends Model {
@@ -20,7 +22,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     description: DataTypes.STRING,
     status: DataTypes.BOOLEAN,
-    due_date: DataTypes.DATE,
+    due_date: {
+      type: DataTypes.DATE,
+      validate: {
+        isAfter: {
+          args: today,
+          msg: "Invalid due_date. It should be after today."
+        }
+      }
+    },
     UserId: DataTypes.INTEGER
   }, {
     sequelize
